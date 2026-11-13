@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from typing import Any
 
 from .llm import LLMError
@@ -101,7 +102,7 @@ class AnthropicLLM:
         except ImportError as exc:
             raise LLMError("未安装 anthropic：pip install anthropic") from exc
 
-        self.client = Anthropic(base_url=base_url, api_key=api_key, timeout=120.0, max_retries=2)
+        self.client = _build_client(Anthropic, base_url, api_key)
         self.model = model
         self.max_tokens = max_tokens
 
@@ -144,6 +145,26 @@ class AnthropicLLM:
             "tool_calls": tool_calls,
             "_raw": raw_blocks,
         }
+
+
+def _build_client(Anthropic: Any, base_url: str, api_key: str) -> Any:
+    """构造客户端；顺手兼容 NO_PROXY 里带 [::1] 的环境。
+
+    httpx2 会把 NO_PROXY 中的 `[::1]` 当成带端口的 IPv6 地址，抛
+    `Invalid port: ':1]'`，在客户端初始化阶段就崩。这里只在命中该错误时
+    移除方括号形式的 IPv6 条目，其余代理配置保持不变。
+    """
+    try:
+        return Anthropic(base_url=base_url, api_key=api_key, timeout=120.0, max_retries=2)
+    except Exception as exc:
+        if "Invalid port" not in str(exc):
+            raise
+        for name in ("NO_PROXY", "no_proxy"):
+            value = os.environ.get(name)
+            if value and "[" in value:
+                kept = [item for item in value.split(",") if "[" not in item and item.strip() != "::1"]
+                os.environ[name] = ",".join(kept)
+        return Anthropic(base_url=base_url, api_key=api_key, timeout=120.0, max_retries=2)
 
 
 def _dump_block(block: Any) -> dict[str, Any]:
