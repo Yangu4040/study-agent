@@ -9,7 +9,7 @@
 - 独立设计并实现一个本地学习 Agent：基于 OpenAI 兼容接口的 tool-calling 循环，将课件自动转为结构化笔记与 10 题主动回忆测验，并生成周复盘。
 - 设计 8 个可审计工具（读材料、写笔记、任务增删改查、笔记检索、学习概览），以「模型决策 / 代码执行」分离的方式控制副作用，内置路径穿越防护与 12 步循环上限。
 - 以文件作为外部记忆（Markdown + JSON + JSONL 调用轨迹），使上下文不随使用时长膨胀，运行过程可回放；模型层可插拔，切换 DeepSeek / 通义 / GLM 仅需改 3 个环境变量。
-- 提供 `--mock` 无密钥模式与 9 个单元测试，GitHub Actions 自动跑通，零框架依赖。
+- 提供 `--mock` 无密钥模式与 15 个单元测试，GitHub Actions 自动跑通，零框架依赖。
 
 ## 二、English resume
 
@@ -18,7 +18,7 @@
 - Built a CLI agent that turns lecture notes into structured study notes and active-recall quizzes, and tracks weekly tasks and reviews.
 - Implemented the tool-calling loop from scratch (no LangChain): the model plans, Python executes; 8 tools cover reading, note writing, task CRUD, note search and weekly review.
 - Externalized memory to files (Markdown / JSON / JSONL traces) so context stays bounded and every run is replayable; model layer is provider-agnostic via an OpenAI-compatible adapter.
-- Added path-traversal protection, a max-step guard, a key-free mock mode and 9 unit tests wired to GitHub Actions.
+- Added path-traversal protection, a max-step guard, a key-free mock mode and 15 unit tests wired to GitHub Actions.
 
 ## 三、GitHub 仓库信息
 
@@ -47,7 +47,7 @@
 3. 模型可插拔——避免焊死在一家 API 上；
 4. 加 mock 模式——没 Key 也能验证流程。
 
-**结果**：本地跑通「读讲义 → 出笔记 → 出 10 题 → 存盘」；9 个测试覆盖路径安全、任务生命周期、错误回填不崩溃；CI 通过。
+**结果**：本地跑通「读讲义 → 出笔记 → 出 10 题 → 存盘」；15 个测试覆盖路径安全、任务生命周期、错误回填不崩溃与 Anthropic 消息转换；CI 通过。
 
 **反思 / 下一步**：目前检索是关键词级，材料多了要上 BM25 或向量；错题还没有回流机制，这是下一步最值得做的。
 
