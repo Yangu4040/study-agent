@@ -124,7 +124,7 @@ STUDYLOOP_API_KEY=sk-...
 需要 Python 3.10+。
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Yangu4040/study-agent.git
 cd study-agent
 
 # 方式一：uv（推荐）

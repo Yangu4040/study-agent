@@ -22,6 +22,8 @@
 
 ## 三、GitHub 仓库信息
 
+**Repository**: https://github.com/Yangu4040/study-agent
+
 **Repository name**: `study-agent`
 
 **About（一句话，80 字符内）**:
@@ -58,7 +60,7 @@ git init
 git add .
 git commit -m "feat: minimal study agent with tool-calling loop"
 git branch -M main
-git remote add origin https://github.com/<你的用户名>/study-agent.git
+git remote add origin https://github.com/Yangu4040/study-agent.git
 git push -u origin main
 ```
 

@@ -5,7 +5,7 @@ description = "A minimal, inspectable study agent: materials -> notes -> quiz, p
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "your-name" }]
+authors = [{ name = "Yangu4040" }]
 dependencies = [
     "openai>=1.40",
     "python-dotenv>=1.0",
